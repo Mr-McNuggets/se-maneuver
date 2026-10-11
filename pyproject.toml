@@ -5,5 +5,5 @@ build-backend = "hatchling.build"
 [project]
 name = "se-maneuver"
 version = "0.0.1"
-dependencies = ["numpy", "scipy", "matplotlib"]
+dependencies = ["numpy", "scipy", "matplotlib", "pytest"]
 requires-python = ">= 3.12"
