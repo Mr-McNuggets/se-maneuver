@@ -11,11 +11,11 @@ def circ_speed(m,r):
         r: orbital radius (km)
     
     Returns:
-        speed: speed of the circular orbit (km/s)
+        v: speed of the circular orbit (km/s)
     '''
     mu = (const.G/1e9)*m
-    speed = numpy.sqrt(mu/r)
-    return speed
+    v = numpy.sqrt(mu/r)
+    return v
 
 def period(m,a):
     '''Determines the period of an orbit.
@@ -43,3 +43,18 @@ def escape(m,d): #Yes yes I know it's technically a speed and not a velocity shu
     mu = (const.G/1e9)*m
     esc_v = numpy.sqrt((2*mu)/d)
     return esc_v
+
+def vis_viva(m,a,r):
+    '''The vis-viva equation. Not much more to it really.
+
+    Args:
+        m: mass of central body (kg)
+        a: semimajor axis of spacecraft orbit (km)
+        r: radial distance of spacecraft from central body (km)
+    
+    Returns:
+        v: speed of spacecraft (km/s)
+    '''
+    mu = (const.G/1e9)*m
+    v = numpy.sqrt(mu*((2/r)-(1/a)))
+    return v

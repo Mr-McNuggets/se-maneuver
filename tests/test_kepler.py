@@ -50,3 +50,46 @@ def test_esc_earth_moon():
 def test_esc_sun_earth():
     v = escape(solar_mass,const.au/1000)
     assert v == pytest.approx(42.1, rel=1e-3)
+
+'''Vis-viva tests'''
+
+#Test that vis_viva == circ_speed in circular orbit
+def test_vis_circ_1():
+    v_circ = circ_speed(earth_mass,6771)
+    v_vis = vis_viva(earth_mass,6771,6771)
+    assert v_circ == v_vis
+
+def test_vis_circ_2():
+    v_circ = circ_speed(solar_mass,(const.au/1000))
+    v_vis = vis_viva(solar_mass,(const.au/1000),(const.au/1000))
+    assert v_circ == v_vis
+
+#Test decreasing v from periapsis to apoapsis
+def test_vis_decrease():
+    m = earth_mass
+    a = 15142
+    v1 = vis_viva(m,a,6771)
+    v2 = vis_viva(m,a,7271)
+    v3 = vis_viva(m,a,7771)
+    v4 = vis_viva(m,a,8271)
+    v5 = vis_viva(m,a,8371)
+    assert v1>v2>v3>v4>v5
+
+#Test same r with greater a gives greater speed
+def test_vis_a_change():
+    v1 = vis_viva(earth_mass,15142,6771)
+    v2 = vis_viva(earth_mass,16142,6771)
+    assert v1<v2
+
+#Test GTO example
+def test_vis_gto1():
+    a = 24371
+    v_peri = vis_viva(earth_mass,a,6571)
+    v_apo = vis_viva(earth_mass,a,42157)
+    assert v_peri == pytest.approx(10.239, rel=1e-3)
+
+def test_vis_gto2():
+    a = 24371
+    v_peri = vis_viva(earth_mass,a,6578)
+    v_apo = vis_viva(earth_mass,a,42164)
+    assert v_apo == pytest.approx(1.5974, rel=1e-3)
