@@ -29,3 +29,17 @@ def period(m,a):
     mu = (const.G/1e9)*m
     T = (2*numpy.pi)*numpy.sqrt(a**3/mu)
     return T
+
+def escape(m,d): #Yes yes I know it's technically a speed and not a velocity shut up
+    '''Determines the escape velocity from a body at a certain distance from the center
+
+    Args:
+        m: mass of body (kg)
+        d: distance from center of body (km)
+    
+    Returns:
+        esc_v: the escape velocity from a body of the given mass at the given distance (km/s)
+    '''
+    mu = (const.G/1e9)*m
+    esc_v = numpy.sqrt((2*mu)/d)
+    return esc_v
