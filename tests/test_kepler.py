@@ -87,9 +87,4 @@ def test_vis_gto1():
     v_peri = vis_viva(earth_mass,a,6571)
     v_apo = vis_viva(earth_mass,a,42157)
     assert v_peri == pytest.approx(10.239, rel=1e-3)
-
-def test_vis_gto2():
-    a = 24371
-    v_peri = vis_viva(earth_mass,a,6578)
-    v_apo = vis_viva(earth_mass,a,42164)
     assert v_apo == pytest.approx(1.5974, rel=1e-3)
