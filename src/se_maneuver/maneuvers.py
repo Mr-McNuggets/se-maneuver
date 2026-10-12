@@ -3,12 +3,18 @@
 
 from se_maneuver.kepler import *
 import numpy
-import scipy.constants as const
 
 ''' Hohmann transfer '''
 
 class Hoh_Param:
-    def __init__(self,m,r1,r2,thrust=0):
+    def __init__(self,m: float,r1: float,r2: float,thrust: float=0) -> None:
+        if thrust < 0:
+            raise Exception("Negative thrust values are not allowed.")
+        if r1 < 0 or r2 < 0:
+            raise Exception("Negative orbital radius values are not allowed.")
+        if m < 0:
+            raise Exception("Negative mass values are not allowed.")
+
         #Transfer orbit semimajor axis
         a_trans = (r1+r2)/2
 
@@ -20,7 +26,7 @@ class Hoh_Param:
 
         self.dv1 = (v_trans_start-v_start)*1000
         self.dv2 = (v_final-v_trans_end)*1000
-        self.dv_total = self.dv1+self.dv2
+        self.dv_total = abs(self.dv1+self.dv2)
         self.time = period(m,a_trans)/2
 
         #Optional burn time
@@ -31,7 +37,7 @@ class Hoh_Param:
             self.burn_time1 = "No thrust value given"
             self.burn_time2 = "No thrust value given"
 
-def hohmann(m,r1,r2,thrust=0):
+def hohmann(m: float,r1: float,r2: float,thrust: float=0) -> Hoh_Param:
     '''Calculates the parameters of a Hohmann transfer between two circular orbits.
 
     Args:
@@ -51,3 +57,16 @@ def hohmann(m,r1,r2,thrust=0):
     Negative dv means retrograde burn
     '''
     return Hoh_Param(m,r1,r2,thrust)
+
+''' Bi-elliptic transfer '''
+
+class BEllip_Param:
+    def __init__(self,m: float,r1: float,r2: float,r_b: float,thrust: float=0) -> None:
+        if thrust < 0:
+            raise Exception("Negative thrust values are not allowed.")
+        if m < 0:
+            raise Exception("Negative mass values are not allowed.")
+        if r1 < 0 or r2 < 0 or r_b < 0:
+            raise Exception("Negative radii are not allowed.")
+        if r_b < r1 or r_b < r2:
+            raise Exception("r_b must be larger than both r1 and r2.")

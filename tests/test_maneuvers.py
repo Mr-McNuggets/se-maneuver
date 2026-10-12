@@ -1,3 +1,6 @@
+from se_maneuver.maneuvers import Hoh_Param
+
+
 from se_maneuver.kepler import period
 from se_maneuver.maneuvers import *
 import pytest
@@ -18,19 +21,19 @@ def test_hohmann_gto():
 
 #Test same orbit transfer
 def test_hohmann_same():
-    same = hohmann(earth_mass,7000,7000)
+    same: Hoh_Param = hohmann(m=earth_mass,r1=7000,r2=7000)
     assert same.dv_total == 0
-    assert same.time == period(earth_mass,7000)/2
+    assert same.time == period(m=earth_mass,a=7000)/2
 
 #Test reversibility
 def test_hoh_rev():
-    rev1 = hohmann(earth_mass,7000,50000)
-    rev2 = hohmann(earth_mass,50000,7000)
-    assert rev2.dv_total == 0-rev1.dv_total
+    rev1: Hoh_Param = hohmann(m=earth_mass,r1=7000,r2=50000)
+    rev2: Hoh_Param = hohmann(m=earth_mass,r1=50000,r2=7000)
+    assert rev2.dv_total == rev1.dv_total
     assert rev2.time == rev1.time
 
 #Test bigger transfer = more dv
 def test_hoh_bigger():
-    trans1 = hohmann(earth_mass,7000,10000)
-    trans2 = hohmann(earth_mass,7000,25000)
+    trans1: Hoh_Param = hohmann(m=earth_mass,r1=7000,r2=10000)
+    trans2: Hoh_Param = hohmann(m=earth_mass,r1=7000,r2=25000)
     assert trans1.dv_total < trans2.dv_total
