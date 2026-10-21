@@ -1,10 +1,8 @@
-from se_maneuver.maneuvers import Hoh_Param
-
-
 from se_maneuver.kepler import period
 from se_maneuver.maneuvers import *
 import pytest
 import scipy.constants as const
+import numpy
 
 earth_mass = 5.9722e24
 solar_mass = 1.9884e30
@@ -37,3 +35,43 @@ def test_hoh_bigger():
     trans1: Hoh_Param = hohmann(m=earth_mass,r1=7000,r2=10000)
     trans2: Hoh_Param = hohmann(m=earth_mass,r1=7000,r2=25000)
     assert trans1.dv_total < trans2.dv_total
+
+''' Bi-elliptic transfer '''
+
+#Test r_b = r2 same as Hohmann
+def test_biellip_same():
+    trans_hoh = hohmann(earth_mass,7000,15000)
+    trans_biellip = bi_ellip(earth_mass,7000,15000,15000)
+    assert trans_hoh.dv_total == trans_hoh.dv_total
+
+#Test a --> b == b --> a
+def test_biellip_reverse():
+    trans1 = bi_ellip(earth_mass,7000,15000,50000)
+    trans2 = bi_ellip(earth_mass,15000,7000,50000)
+    assert trans1.dv_total == trans2.dv_total
+
+#Test more dv than Hohmann with low ratio
+def test_more_than_hoh():
+    good_hoh = hohmann(earth_mass,7000,15000)
+    bad_biellip = bi_ellip(earth_mass,7000,15000,75000)
+    assert good_hoh.dv_total < bad_biellip.dv_total
+
+#Test less dv than Hohmann with high ratio
+def test_less_than_hoh():
+    bad_hoh = hohmann(earth_mass,7000,140000)
+    good_biellip = bi_ellip(earth_mass,7000,140000,250000)
+    assert bad_hoh.dv_total > good_biellip.dv_total
+
+#Test dv_total converges as r_b increases, dv2 decreases
+def test_converge():
+    r_b = 100000
+    total_dv_list = []
+    dv2_list = []
+    for i in range(5):
+        biellip_converge = bi_ellip(earth_mass,7000,50000,r_b)
+        total_dv_list.append(biellip_converge.dv_total)
+        dv2_list.append(biellip_converge.dv2)
+        r_b *= 10
+    diffs = numpy.abs(numpy.diff(total_dv_list))
+    assert dv2_list[0] > dv2_list[1] > dv2_list[2] > dv2_list[3] > dv2_list[4]
+    assert diffs[0] > diffs[1] > diffs[2] > diffs[3]
