@@ -16,7 +16,7 @@ def eccentric_anomaly(M, e):
         e: eccentricity
     
     Returns:
-        E: eccentric anomaly (degrees)
+        E: eccentric anomaly (radians)
     '''
     M = np.deg2rad(M)
 
@@ -24,7 +24,7 @@ def eccentric_anomaly(M, e):
     fprime = lambda E : 1 - e * np.cos(E)
     fp2 = lambda E : e * np.sin(E)
 
-    return np.rad2deg(scipy.optimize.newton(f, 0, fprime, fprime2 = fp2))
+    return scipy.optimize.newton(f, 0, fprime, fprime2 = fp2)
 
 #Function to determine true anomaly
 def true_anomaly(M, e):
@@ -35,10 +35,10 @@ def true_anomaly(M, e):
         e: eccentricity
     
     Returns:
-        nu: true anomaly (degrees)
+        nu: true anomaly (radians)
     '''
     beta = e / (1 + np.sqrt(1 - e**2))
-    E = np.deg2rad(eccentric_anomaly(M, e))
+    E = eccentric_anomaly(M, e)
     nu = E + 2*(np.arctan((beta*np.sin(E))/(1-beta*np.cos(E))))
 
-    return np.rad2deg(nu)
+    return nu
