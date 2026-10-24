@@ -1,5 +1,6 @@
 import scipy.constants as const
 from dataclasses import dataclass
+import numpy as np
 
 @dataclass(frozen=True)
 class Orbit:
@@ -9,6 +10,7 @@ class Orbit:
     All distances in km
     All angles in degrees (decimal)
     Mass in kg
+    Times in seconds
     '''
     r_peri = float
     r_apo = float
@@ -22,3 +24,6 @@ class Orbit:
     @property
     def mu(self) -> float:
         return self.m * const.G
+    
+    def T(self) -> float:
+        return (2*numpy.pi)*numpy.sqrt(self.a**3/self.mu)
