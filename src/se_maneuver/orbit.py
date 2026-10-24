@@ -6,11 +6,19 @@ import numpy as np
 class Orbit:
     '''Orbital parameters
 
-    Units:
-    All distances in km
-    All angles in degrees (decimal)
-    Mass in kg
-    Times in seconds
+    Args:
+        r_peri: radius of periapsis (km)
+        r_apo: radius of apoapsis (km)
+        e: eccentricity
+        a: semimajor axis
+        argp: argument of periapsis (decimal degrees)
+        long_asc: longitude of the ascending node (decimal degrees)
+        i: inclination (decimal degrees)
+        m: mass of body (kg)
+
+    Extra parameters:
+        mu: standard gravitational parameter (m^3*s^-2)
+        T: period of orbit (s)
     '''
     r_peri = float
     r_apo = float
