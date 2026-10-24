@@ -7,8 +7,6 @@ class Orbit:
     '''Orbital parameters
 
     Args:
-        r_peri: radius of periapsis (km)
-        r_apo: radius of apoapsis (km)
         e: eccentricity
         a: semimajor axis
         argp: argument of periapsis (decimal degrees)
@@ -20,18 +18,17 @@ class Orbit:
         mu: standard gravitational parameter (m^3*s^-2)
         T: period of orbit (s)
     '''
-    r_peri = float
-    r_apo = float
-    e = float
-    a = float
-    argp = float
-    long_asc = float
-    i = float
-    m = float
+    e: float
+    a: float
+    argp: float
+    long_asc: float
+    i: float
+    m: float
 
     @property
     def mu(self) -> float:
         return self.m * const.G
     
+    @property
     def T(self) -> float:
-        return (2*numpy.pi)*numpy.sqrt(self.a**3/self.mu)
+        return (2*np.pi)*np.sqrt(self.a**3/self.mu)
