@@ -36,12 +36,12 @@ def elem2state(orbit, M):
         ])
     
     #Define the rotation matrix (big and scary but not actually that bad)
-    sin_long_asc = np.sin(orbit.long_asc)
-    cos_long_asc = np.cos(orbit.long_asc)
-    sin_argp = np.sin(orbit.argp)
-    cos_argp = np.cos(orbit.argp)
-    sin_i = np.sin(orbit.i)
-    cos_i = np.cos(orbit.i)
+    sin_long_asc = np.sin(long_asc)
+    cos_long_asc = np.cos(long_asc)
+    sin_argp = np.sin(argp)
+    cos_argp = np.cos(argp)
+    sin_i = np.sin(i)
+    cos_i = np.cos(i)
     rot_matrix = np.array([
         [cos_long_asc*cos_argp - sin_long_asc*cos_i*sin_argp, -cos_long_asc*sin_argp - sin_long_asc*cos_i*cos_argp, sin_long_asc*sin_i],
         [sin_long_asc*cos_argp + cos_long_asc*cos_i*sin_argp, -sin_long_asc*sin_argp + cos_long_asc*cos_i*cos_argp, -cos_long_asc*sin_i],
@@ -57,3 +57,4 @@ def elem2state(orbit, M):
 iss_orbit = Orbit(e=0.0006885, a=6797.7, argp=302.9098, long_asc=21.6229, i=51.6335, m=5.972e24)
 iss_state = elem2state(iss_orbit, 57.1228)
 print(iss_state)
+print(np.sqrt(sum(pow(element, 2) for element in iss_state[1])))

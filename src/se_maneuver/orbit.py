@@ -15,7 +15,7 @@ class Orbit:
         m: mass of body (kg)
 
     Extra parameters:
-        mu: standard gravitational parameter (m^3*s^-2)
+        mu: standard gravitational parameter (km^3*s^-2)
         T: period of orbit (s)
     '''
     e: float
@@ -27,7 +27,7 @@ class Orbit:
 
     @property
     def mu(self) -> float:
-        return self.m * const.G
+        return self.m * (const.G/1e9)
     
     @property
     def T(self) -> float:
