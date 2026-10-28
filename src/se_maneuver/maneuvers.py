@@ -42,8 +42,8 @@ def hohmann(m: float,r1: float,r2: float,thrust: float=0) -> Hoh_Param:
 
     Args:
         m: mass of central body (kg)
-        r1: radius of starting orbit (km)
-        r2: radius of target orbit (km)
+        r1: radius of starting orbit (m)
+        r2: radius of target orbit (m)
         thrust: acceleration/thrust of spacecraft, optional (m/s^2)
     
     Returns:
@@ -104,9 +104,9 @@ def bi_ellip(m: float,r1: float,r2: float,r_b: float,thrust: float=0) -> BEllip_
     '''Calculates the parameters of a bi-elliptic transfer between two circular orbits
     Args:
         m: mass of body (kg)
-        r1: radius of starting orbit (km)
-        r2: radius of target orbit (km)
-        r_b: apoapsis of transfer orbit (must be greater than both r1 and r2) (km)
+        r1: radius of starting orbit (m)
+        r2: radius of target orbit (m)
+        r_b: apoapsis of transfer orbit (must be greater than both r1 and r2) (m)
         thrust: spacecraft thrust/acceleration (optional) (m/s^2)
     
     Returns:

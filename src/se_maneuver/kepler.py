@@ -8,17 +8,17 @@ def circ_speed(m: float,r: float) -> float:
 
     Args:
         m: mass of body being orbited (kg)
-        r: orbital radius (km)
+        r: orbital radius (m)
     
     Returns:
-        v: speed of the circular orbit (km/s)
+        v: speed of the circular orbit (m/s)
     '''
     if m < 0:
         raise Exception("Negative mass values are not allowed.")
     if r < 0:
         raise Exception("Negative orbital radius values are not allowed.")
     
-    mu = (const.G/1e9)*m
+    mu = (const.G)*m
     v = numpy.sqrt(mu/r)
     return v
 
@@ -36,7 +36,7 @@ def period(m:float ,a: float) -> float:
     if a < 0:
         raise Exception("Negative semimajor axis values are not allowed.")
 
-    mu = (const.G/1e9)*m
+    mu = (const.G)*m
     T = (2*numpy.pi)*numpy.sqrt(a**3/mu)
     return T
 
@@ -45,17 +45,17 @@ def escape(m: float,d: float) -> float: #Yes yes I know it's technically a speed
 
     Args:
         m: mass of body (kg)
-        d: distance from center of body (km)
+        d: distance from center of body (m)
     
     Returns:
-        esc_v: the escape velocity from a body of the given mass at the given distance (km/s)
+        esc_v: the escape velocity from a body of the given mass at the given distance (m/s)
     '''
     if m < 0:
         raise Exception("Negative mass values are not allowed.")
     if d < 0:
         raise Exception("Negative radius values are not allowed.")
     
-    mu = (const.G/1e9)*m
+    mu = (const.G)*m
     esc_v: float = numpy.sqrt((2*mu)/d)  # pyright: ignore[reportAny]
     return esc_v
 
@@ -64,11 +64,11 @@ def vis_viva(m: float,a: float,r: float) -> float:
 
     Args:
         m: mass of central body (kg)
-        a: semimajor axis of spacecraft orbit (km)
-        r: radial distance of spacecraft from central body (km)
+        a: semimajor axis of spacecraft orbit (m)
+        r: radial distance of spacecraft from central body (m)
     
     Returns:
-        v: speed of spacecraft (km/s)
+        v: speed of spacecraft (m/s)
     '''
     if m < 0:
         raise Exception("Negative mass values are not allowed.")
@@ -79,6 +79,6 @@ def vis_viva(m: float,a: float,r: float) -> float:
     if r > 2*a:
         raise Exception("Radius cannot be creater than 2*sma.")
     
-    mu= (const.G/1e9)*m
+    mu= (const.G)*m
     v: float = numpy.sqrt(mu*((2/r)-(1/a)))  # pyright: ignore[reportAny]
     return v
